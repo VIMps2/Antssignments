@@ -1,13 +1,24 @@
 package com.example.antssignments.Models;
 
+import android.annotation.SuppressLint;
+import android.util.Log;
+
+import com.codepath.asynchttpclient.AsyncHttpClient;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.Headers;
+@Parcel
 public class Courses {
+    public Courses() {
+    }
 
     String courseName;
     int courseID;
@@ -42,7 +53,6 @@ public class Courses {
                 continue;
             }
             courses.add(new Courses(obj));
-
         }
         return courses;
     }

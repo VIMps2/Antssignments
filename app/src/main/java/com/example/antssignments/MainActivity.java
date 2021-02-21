@@ -2,8 +2,12 @@ package com.example.antssignments;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
@@ -12,6 +16,7 @@ import com.example.antssignments.Models.Courses;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -20,15 +25,29 @@ import okhttp3.Headers;
 public class MainActivity extends AppCompatActivity {
 
     public static final String ALL_COURSE_IDS = "https://canvas.eee.uci.edu/api/v1/courses?access_token=4407~UeskhdnHkzhYvPj5UxZFwJFTDhZcJJwaf98sJRP4loywfWHYvldN4HFPmxLOAuUV";
-    public static final String ASSIGNMENTS_FROM_COURSE = "https://canvas.eee.uci.edu/api/v1/courses/%d/assignments?access_token=4407~UeskhdnHkzhYvPj5UxZFwJFTDhZcJJwaf98sJRP4loywfWHYvldN4HFPmxLOAuUV";
     public static final String TAG = "MainActivity";
 
     List<Courses> courseList;
+    private Button btnLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        btnLogin = findViewById(R.id.btnLogin);
+
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AssignmentsActivity.class);
+                for (int i = 0; i < courseList.size(); i++) {
+                    intent.putExtra("courseList" + String.valueOf(i), Parcels.wrap(courseList.get(i)));
+                }
+                intent.putExtra("listSize", courseList.size());
+                startActivity(intent);
+            }
+        });
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(ALL_COURSE_IDS, new JsonHttpResponseHandler() {
@@ -51,4 +70,3 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 }
-//client.get(String.format(VIDEOS_URL, movie.getMovieId()), new JsonHttpResponseHandler() {

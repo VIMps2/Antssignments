@@ -1,6 +1,7 @@
 package com.example.antssignments.Models;
 
 import android.annotation.SuppressLint;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
@@ -16,12 +17,29 @@ import java.util.List;
 
 import okhttp3.Headers;
 @Parcel
-public class Courses {
+public class Courses implements Parcelable {
     public Courses() {
     }
 
     String courseName;
     int courseID;
+
+    protected Courses(android.os.Parcel in) {
+        courseName = in.readString();
+        courseID = in.readInt();
+    }
+
+    public static final Creator<Courses> CREATOR = new Creator<Courses>() {
+        @Override
+        public Courses createFromParcel(android.os.Parcel in) {
+            return new Courses(in);
+        }
+
+        @Override
+        public Courses[] newArray(int size) {
+            return new Courses[size];
+        }
+    };
 
     public String getCourseName() {
         return courseName;
@@ -55,5 +73,17 @@ public class Courses {
             courses.add(new Courses(obj));
         }
         return courses;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(android.os.Parcel dest, int flags) {
+
+        dest.writeString(courseName);
+        dest.writeInt(courseID);
     }
 }

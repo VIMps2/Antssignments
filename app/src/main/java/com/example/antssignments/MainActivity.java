@@ -2,71 +2,59 @@ package com.example.antssignments;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.example.antssignments.Fragments.AssignmentFragment;
+import com.example.antssignments.Models.Assignments;
 import com.example.antssignments.Models.Courses;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Headers;
 
 public class MainActivity extends AppCompatActivity {
-
-    public static final String ALL_COURSE_IDS = "https://canvas.eee.uci.edu/api/v1/courses?access_token=4407~UeskhdnHkzhYvPj5UxZFwJFTDhZcJJwaf98sJRP4loywfWHYvldN4HFPmxLOAuUV";
-    public static final String TAG = "MainActivity";
-
+    public static final String TAG = "AssignmentsActivity";
     List<Courses> courseList;
-    private Button btnLogin;
+    List<Assignments> assignmentsList;
 
+    @SuppressLint("DefaultLocale")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_assignments);
 
-        btnLogin = findViewById(R.id.btnLogin);
+        AssignmentFragment assignmentFragment = new AssignmentFragment();
+        courseList = new ArrayList<>();
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AssignmentsActivity.class);
-                for (int i = 0; i < courseList.size(); i++) {
-                    intent.putExtra("courseList" + String.valueOf(i), Parcels.wrap(courseList.get(i)));
-                }
-                intent.putExtra("listSize", courseList.size());
-                startActivity(intent);
-            }
-        });
 
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(ALL_COURSE_IDS, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int i, Headers headers, JSON json) {
-                Log.d(TAG, "onSuccess");
-                JSONArray courses = json.jsonArray;
-                try {
-                    courseList = Courses.fromJsonArray(courses);
-                    Log.i(TAG, "Courses: " + courseList.toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
+        int courseLength = getIntent().getIntExtra("listSize", 0);
+        for (int i = 0; i < courseLength; i++) {
+            Courses course = (Courses) Parcels.unwrap(getIntent().getParcelableExtra("courseList" + String.valueOf(i)));
+            courseList.add(course);
 
-            @Override
-            public void onFailure(int i, Headers headers, String s, Throwable throwable) {
-                Log.d(TAG, "onFailure");
-            }
-        });
+        }
+        Log.i(TAG, "Courses: " + courseList.toString());
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("courseList", (ArrayList<? extends Parcelable>) courseList);
+        assignmentFragment.setArguments(bundle);
+
+
     }
+
+
+
+
+
+
 }

@@ -46,12 +46,15 @@ public class AssignmentFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i(TAG, "IT WORKS");
 
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
         rvAssignments = view.findViewById(R.id.rvAssignments);
         courseList = new ArrayList<>();
 

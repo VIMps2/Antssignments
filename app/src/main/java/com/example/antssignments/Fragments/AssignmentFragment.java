@@ -23,7 +23,6 @@ import com.example.antssignments.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +31,11 @@ import okhttp3.Headers;
 
 public class AssignmentFragment extends Fragment {
     public static final String ASSIGNMENTS_FROM_COURSE = "https://canvas.eee.uci.edu/api/v1/courses/%d/assignments?access_token=4407~UeskhdnHkzhYvPj5UxZFwJFTDhZcJJwaf98sJRP4loywfWHYvldN4HFPmxLOAuUV";
-    public static final String TAG = "AssignmentsActivity";
+    public static final String TAG = "AssignmentFragment";
 
     protected AssignmentAdapter adapter;
     private RecyclerView rvAssignments;
-    protected List<Courses> courseList;
+    protected ArrayList<Courses> courseList;
     protected List<Assignments> assignmentsList;
 
     public AssignmentFragment() {
@@ -48,19 +47,25 @@ public class AssignmentFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rvAssignments = view.findViewById(R.id.rvAssignments);
-        //courseList = new ArrayList<>();
-        adapter = new AssignmentAdapter(getContext(), courseList, assignmentsList);
+        courseList = new ArrayList<>();
 
+        Bundle extras = getActivity().getIntent().getExtras();
+        ArrayList<Courses> courseList  = extras.getParcelableArrayList("courseList");
+        Log.i(TAG, "Courses: " + courseList.toString());
+        assignmentsList = createAssignments(courseList);
+
+
+        adapter = new AssignmentAdapter(getContext(), courseList, assignmentsList);
         rvAssignments.setAdapter(adapter);
         rvAssignments.setLayoutManager(new LinearLayoutManager(getContext()));
-        createAssignments();
+
+
 
     }
 
@@ -69,22 +74,12 @@ public class AssignmentFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_assignment, container, false);
+
     }
 
     @SuppressLint("DefaultLocale")
-    protected void createAssignments() {
-        courseList = new ArrayList<>();
+    protected List<Assignments> createAssignments(ArrayList<Courses> courseList) {
 
-        Bundle extras = getActivity().getIntent().getExtras();
-        ArrayList<Courses> courseList  = extras.getParcelableArrayList("courseList");
-
-        //int courseLength = getActivity().getIntent().getIntExtra("listSize", 0);
-        //for (int i = 0; i < courseLength; i++) {
-            //Courses course = (Courses) Parcels.unwrap(getActivity().getIntent().getParcelableExtra("courseList" + String.valueOf(i)));
-            //courseList.add(course);
-
-        //}
-        Log.i(TAG, "Courses: " + courseList.toString());
 
         AsyncHttpClient client = new AsyncHttpClient();
         for (int i = 0; i < courseList.size(); i++) {
@@ -108,7 +103,7 @@ public class AssignmentFragment extends Fragment {
                 }
             });
         }
-
+        return assignmentsList;
 
     }
 }

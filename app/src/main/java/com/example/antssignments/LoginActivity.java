@@ -23,7 +23,7 @@ import okhttp3.Headers;
 public class LoginActivity extends AppCompatActivity {
 
     public static final String ALL_COURSE_IDS = "https://canvas.eee.uci.edu/api/v1/courses?access_token=4407~UeskhdnHkzhYvPj5UxZFwJFTDhZcJJwaf98sJRP4loywfWHYvldN4HFPmxLOAuUV";
-    public static final String TAG = "MainActivity";
+    public static final String TAG = "LoginActivity";
 
     List<Courses> courseList;
     private Button btnLogin;

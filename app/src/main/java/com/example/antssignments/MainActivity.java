@@ -24,47 +24,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String TAG = "AssignmentsActivity";
+    public static final String TAG = "MainActivity";
 
-        final FragmentManager fragmentManager = getSupportFragmentManager();
+    final FragmentManager fragmentManager = getSupportFragmentManager();
     private BottomNavigationView bottomNavigationView;
     List<Courses> courseList;
-    List<Assignments> assignmentsList;
+
 
     @SuppressLint("DefaultLocale")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        bottomNavigationView = findViewById(R.id.bottomNavigation);
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment fragment = null;
-                switch (item.getItemId()){
-                    case (R.id.action_assignments):
-                        Toast.makeText(MainActivity.this, "Assignments", Toast.LENGTH_SHORT).show();
-                        fragment = new AssignmentFragment();
-                        break;
-                    case (R.id.action_classes):
-                        Toast.makeText(MainActivity.this, "Classes", Toast.LENGTH_SHORT).show();
-                        fragment = new ClassesFragment();
-                        break;
-                    default:
-                        break;
-                }
-                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
-                return false;
-            }
-        });
-
-        bottomNavigationView.setSelectedItemId(R.id.action_assignments);
-
-        AssignmentFragment assignmentFragment = new AssignmentFragment();
         courseList = new ArrayList<>();
-
+        bottomNavigationView = findViewById(R.id.bottomNavigation);
 
         int courseLength = getIntent().getIntExtra("listSize", 0);
         for (int i = 0; i < courseLength; i++) {
@@ -74,16 +47,29 @@ public class MainActivity extends AppCompatActivity {
         }
         Log.i(TAG, "Courses: " + courseList.toString());
 
-        Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("courseList", (ArrayList<? extends Parcelable>) courseList);
-        assignmentFragment.setArguments(bundle);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment fragment;
+                switch (item.getItemId()) {
+                    case R.id.action_classes:
+                        fragment = new ClassesFragment();
+                        break;
+                    case R.id.action_assignments:
+                    default:
+                        fragment = new AssignmentFragment();
+                        break;
+                }
+                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("courseList", (ArrayList<? extends Parcelable>) courseList);
+                fragment.setArguments(bundle);
+                return true;
+            }
+        });
+        bottomNavigationView.setSelectedItemId(R.id.action_assignments);
 
 
     }
-
-
-
-
-
 
 }

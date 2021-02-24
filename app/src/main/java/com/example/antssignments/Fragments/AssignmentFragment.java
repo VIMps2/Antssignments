@@ -36,7 +36,6 @@ public class AssignmentFragment extends Fragment {
     protected AssignmentAdapter adapter;
     private RecyclerView rvAssignments;
     protected ArrayList<Courses> courseList;
-    protected List<Assignments> assignmentsList;
 
     public AssignmentFragment() {
 
@@ -46,7 +45,7 @@ public class AssignmentFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(TAG, "IT WORKS");
+        Log.i(TAG, "AssignmentsFragment launched");
 
     }
 
@@ -58,17 +57,14 @@ public class AssignmentFragment extends Fragment {
         rvAssignments = view.findViewById(R.id.rvAssignments);
         courseList = new ArrayList<>();
 
-        Bundle extras = getActivity().getIntent().getExtras();
+        Bundle extras = this.getArguments();//getActivity().getIntent().getExtras();
         ArrayList<Courses> courseList  = extras.getParcelableArrayList("courseList");
         Log.i(TAG, "Courses: " + courseList.toString());
-        assignmentsList = createAssignments(courseList);
 
 
-        adapter = new AssignmentAdapter(getContext(), courseList, assignmentsList);
+        adapter = new AssignmentAdapter(getContext(), courseList);
         rvAssignments.setAdapter(adapter);
         rvAssignments.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
 
     }
 
@@ -80,33 +76,5 @@ public class AssignmentFragment extends Fragment {
 
     }
 
-    @SuppressLint("DefaultLocale")
-    protected List<Assignments> createAssignments(ArrayList<Courses> courseList) {
 
-
-        AsyncHttpClient client = new AsyncHttpClient();
-        for (int i = 0; i < courseList.size(); i++) {
-            int ID = courseList.get(i).getCourseID();
-            client.get(String.format(ASSIGNMENTS_FROM_COURSE, ID), new JsonHttpResponseHandler() {
-                @Override
-                public void onSuccess(int i, Headers headers, JSON json) {
-                    Log.d(TAG, "onSuccess");
-                    JSONArray assignments = json.jsonArray;
-                    try {
-                        assignmentsList = Assignments.fromJsonArray(assignments);
-                        Log.i(TAG, "Assignments: " + assignmentsList.toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onFailure(int i, Headers headers, String s, Throwable throwable) {
-                    Log.e(TAG, "onFailure", throwable);
-                }
-            });
-        }
-        return assignmentsList;
-
-    }
 }

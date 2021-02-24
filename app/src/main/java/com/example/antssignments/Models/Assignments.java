@@ -26,7 +26,6 @@ public class Assignments {
         dueDate = jsonObject.getString("due_at");
     }
 
-
     public String getAssignmentName() {
         return assignmentName;
     }

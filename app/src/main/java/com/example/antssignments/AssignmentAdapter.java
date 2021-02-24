@@ -1,6 +1,8 @@
 package com.example.antssignments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,22 +12,32 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.codepath.asynchttpclient.AsyncHttpClient;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.antssignments.Fragments.AssignmentFragment;
 import com.example.antssignments.Models.Assignments;
 import com.example.antssignments.Models.Courses;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Headers;
 
 public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.ViewHolder> {
 
     private Context context;
-    private List<Courses> courses;
-    private List<Assignments> assignments;
+    protected ArrayList<Courses> courses;
+    private List<Assignments> assignmentsList;
+    public static final String TAG = "AssignmentAdapter";
 
-    public AssignmentAdapter(Context context, List<Courses> courses, List<Assignments> assignments) {
+    public AssignmentAdapter(Context context, ArrayList<Courses> courses) {
         this.context = context;
         this.courses = courses;
-        this.assignments = assignments;
+        createAssignments(courses);
+
     }
 
     @NonNull
@@ -38,9 +50,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Courses course = courses.get(position);
-        Assignments assignment;
-        assignment = assignments.get(position);
-        holder.bind(course, assignment);
+        holder.bind(course);
     }
 
     @Override
@@ -59,10 +69,40 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
             ClassName = itemView.findViewById(R.id.tvClassName);
         }
 
-        public void bind(Courses course, Assignments assignments) {
+        public void bind(Courses course) {
             ClassName.setText(course.getCourseName());
-            AssignmentName.setText(assignments.getAssignmentName());
+            //AssignmentName.setText();
         }
 
     }
+    @SuppressLint("DefaultLocale")
+    public void createAssignments(ArrayList<Courses> courseList) {
+        String ASSIGNMENTS_FROM_COURSE = "https://canvas.eee.uci.edu/api/v1/courses/%d/assignments?access_token=4407~UeskhdnHkzhYvPj5UxZFwJFTDhZcJJwaf98sJRP4loywfWHYvldN4HFPmxLOAuUV";
+        AsyncHttpClient client = new AsyncHttpClient();
+        for (int i = 0; i < courseList.size(); i++) {
+            int ID = courseList.get(i).getCourseID();
+            client.get(String.format(ASSIGNMENTS_FROM_COURSE, ID), new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int i, Headers headers, JSON json) {
+                    Log.d(TAG, "onSuccess");
+                    JSONArray assignments = json.jsonArray;
+                    try {
+                        assignmentsList = Assignments.fromJsonArray(assignments);
+                        Log.i(TAG, "Assignments: " + assignmentsList.toString());
+                        //Courses.addAssignments(assignmentsList);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(int i, Headers headers, String s, Throwable throwable) {
+                    Log.e(TAG, "onFailure", throwable);
+                }
+            });
+        }
+    }
+
+
 }

@@ -60,10 +60,11 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new AssignmentFragment();
                         break;
                 }
-                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("courseList", (ArrayList<? extends Parcelable>) courseList);
                 fragment.setArguments(bundle);
+                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+
                 return true;
             }
         });

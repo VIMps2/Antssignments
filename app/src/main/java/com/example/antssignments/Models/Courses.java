@@ -1,11 +1,6 @@
 package com.example.antssignments.Models;
 
-import android.annotation.SuppressLint;
 import android.os.Parcelable;
-import android.util.Log;
-
-import com.codepath.asynchttpclient.AsyncHttpClient;
-import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,9 +10,10 @@ import org.parceler.Parcel;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.Headers;
 @Parcel
 public class Courses implements Parcelable {
+    private static ArrayList<Assignments> assignmentList;
+
     public Courses() {
     }
 
@@ -41,8 +37,16 @@ public class Courses implements Parcelable {
         }
     };
 
+    public static void setAssignmentList(ArrayList<Assignments> assignmentList) {
+        Courses.assignmentList = assignmentList;
+    }
+
     public String getCourseName() {
         return courseName;
+    }
+
+    public static ArrayList<Assignments> getAssignmentList() {
+        return assignmentList;
     }
 
     public void setCourseName(String courseName) {
@@ -57,10 +61,11 @@ public class Courses implements Parcelable {
         this.courseID = courseID;
     }
 
-    public Courses(JSONObject jsonObject) throws JSONException {
-        courseName = jsonObject.getString("name");
-        courseID = jsonObject.getInt("id");
-
+    public static Courses fromJson(JSONObject jsonObject) throws JSONException {
+        Courses course = new Courses();
+        course.courseName = jsonObject.getString("name");
+        course.courseID = jsonObject.getInt("id");
+        return course;
     }
 
     public static List<Courses> fromJsonArray(JSONArray coursesJsonArray) throws JSONException {
@@ -70,9 +75,13 @@ public class Courses implements Parcelable {
             if (obj.has("access_restricted_by_date")) {
                 continue;
             }
-            courses.add(new Courses(obj));
+            courses.add(fromJson(coursesJsonArray.getJSONObject(i)));
         }
         return courses;
+    }
+
+    public static void addAssignments(List<Assignments> assignments) {
+        assignmentList.addAll(assignments);
     }
 
     @Override

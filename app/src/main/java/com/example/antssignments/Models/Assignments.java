@@ -18,6 +18,7 @@ public class Assignments {
     String assignmentName;
     String dueDate;
 
+
     public Assignments() {
     }
 

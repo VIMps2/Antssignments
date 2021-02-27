@@ -12,7 +12,8 @@ import java.util.List;
 
 @Parcel
 public class Courses implements Parcelable {
-    private static ArrayList<Assignments> assignmentList;
+    public static List<Assignments> ListAssignments;
+
 
     public Courses() {
     }
@@ -37,16 +38,9 @@ public class Courses implements Parcelable {
         }
     };
 
-    public static void setAssignmentList(ArrayList<Assignments> assignmentList) {
-        Courses.assignmentList = assignmentList;
-    }
 
     public String getCourseName() {
         return courseName;
-    }
-
-    public static ArrayList<Assignments> getAssignmentList() {
-        return assignmentList;
     }
 
     public void setCourseName(String courseName) {
@@ -81,7 +75,7 @@ public class Courses implements Parcelable {
     }
 
     public static void addAssignments(List<Assignments> assignments) {
-        assignmentList.addAll(assignments);
+        ListAssignments.addAll(assignments);
     }
 
     @Override

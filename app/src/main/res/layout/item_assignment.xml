@@ -7,20 +7,29 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tvAssignmentName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        tools:text="EECS 31" />
-
-    <TextView
         android:id="@+id/tvClassName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        tools:text="Lab 4" />
+        tools:text="EECS 31" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvChildRecyclerView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+
+
+    </LinearLayout>
+
+
 </LinearLayout>

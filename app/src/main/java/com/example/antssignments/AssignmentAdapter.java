@@ -24,6 +24,7 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -57,17 +58,21 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
         Courses course = courses.get(position);
         holder.ClassName.setText(course.getCourseName());
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(holder.ChildRecyclerView.getContext(), LinearLayoutManager.VERTICAL, false);
-        layoutManager.setInitialPrefetchItemCount(coursesToAssignments.size());
-        for(Map.Entry<Courses, List<Assignments>> coursesListHashMap : coursesToAssignments.entrySet())
-        for (int j = 0; j < coursesToAssignments.size(); j++){
-            Courses key = coursesListHashMap.getKey();
-            AssignmentChildAdapter assignmentChildAdapter = new AssignmentChildAdapter(coursesToAssignments.get(key));
-            holder.ChildRecyclerView.setLayoutManager(layoutManager);
-            holder.ChildRecyclerView.setAdapter(assignmentChildAdapter);
-            holder.ChildRecyclerView.setRecycledViewPool(viewPool);
+        //LinearLayoutManager layoutManager = new LinearLayoutManager(holder.ChildRecyclerView.getContext(), LinearLayoutManager.VERTICAL, false);
+        //layoutManager.setInitialPrefetchItemCount(coursesToAssignments.size());
+
+        /*
+        for(Map.Entry<Courses, List<Assignments>> coursesListHashMap : coursesToAssignments.entrySet()) {
+            for (int j = 0; j < coursesToAssignments.size(); j++) {
+                Courses key = coursesListHashMap.getKey();
+                AssignmentChildAdapter assignmentChildAdapter = new AssignmentChildAdapter(coursesToAssignments.get(key));
+                holder.ChildRecyclerView.setLayoutManager(layoutManager);
+                holder.ChildRecyclerView.setAdapter(assignmentChildAdapter);
+                holder.ChildRecyclerView.setRecycledViewPool(viewPool);
+            }
         }
 
+         */
     }
 
     @Override
@@ -78,12 +83,13 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
     class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView ClassName;
-        private RecyclerView ChildRecyclerView;
+        //private RecyclerView ChildRecyclerView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ClassName = itemView.findViewById(R.id.tvClassName);
-            ChildRecyclerView = itemView.findViewById(R.id.rvChildRecyclerView);
+            //ChildRecyclerView = itemView.findViewById(R.id.rvChildRecyclerView);
+
         }
 
     }

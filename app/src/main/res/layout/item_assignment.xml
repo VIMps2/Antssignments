@@ -15,21 +15,5 @@
         android:paddingBottom="5dp"
         tools:text="EECS 31" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:orientation="vertical">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvChildRecyclerView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-
-
-
-    </LinearLayout>
-
 
 </LinearLayout>

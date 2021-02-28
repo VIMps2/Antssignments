@@ -16,6 +16,7 @@ import com.example.antssignments.ClassesAdapter;
 import com.example.antssignments.Models.Courses;
 import com.example.antssignments.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClassesFragment extends Fragment {
@@ -44,6 +45,9 @@ public class ClassesFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        courseList = new ArrayList<>();
+        Bundle extras = this.getArguments();//getActivity().getIntent().getExtras();
+        ArrayList<Courses> courseList  = extras.getParcelableArrayList("courseList");
         rvClasses = view.findViewById(R.id.rvClasses);
         classesAdapter = new ClassesAdapter(getContext(), courseList);
         rvClasses.setAdapter(classesAdapter);

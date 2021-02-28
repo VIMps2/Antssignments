@@ -36,7 +36,7 @@ A comprehensive app that uses Canvas API to create a todo app for Anteaters' ass
 
 **Story Progress**
 
-<img src="walkthrough1.gif" width=800><br>
+<img src="walkthrough1.gif" width=250><br>
 
 ### 2. Screen Archetypes
 

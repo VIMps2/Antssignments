@@ -27,12 +27,16 @@ A comprehensive app that uses Canvas API to create a todo app for Anteaters' ass
 
 **Required Must-have Stories**
 
-* User logins to their UCINetID account and accesses Canvas
+* User logins to their UCINetID account and accesses Canvas (DONE)
 * User is able to click on a class to access a to-do list to enter in reminders and tasks
 
 **Optional Nice-to-have Stories**
 
 * Calendar implementation to see beyond the current day(s)/week(s) of assignments.
+
+**Story Progress**
+
+<img src="walkthrough1.gif" width=800><br>
 
 ### 2. Screen Archetypes
 

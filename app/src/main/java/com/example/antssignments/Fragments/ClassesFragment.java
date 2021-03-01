@@ -47,9 +47,9 @@ public class ClassesFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         courseList = new ArrayList<>();
 
-        Bundle extras = this.getArguments();//getActivity().getIntent().getExtras();
-        ArrayList<Course> courseList  = extras.getParcelableArrayList("courseList");
-        Log.i(TAG, "Courses: " + courseList.toString());
+//        Bundle extras = this.getArguments();//getActivity().getIntent().getExtras();
+//        ArrayList<Course> courseList  = extras.getParcelableArrayList("courseList");
+//        Log.i(TAG, "Courses: " + courseList.toString());
         rvClasses = view.findViewById(R.id.rvCourses);
 
         ClassesAdapter.OnClickListener onClickListener = new ClassesAdapter.OnClickListener() {

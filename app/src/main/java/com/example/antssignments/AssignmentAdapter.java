@@ -6,44 +6,39 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
-import com.example.antssignments.Fragments.AssignmentFragment;
-import com.example.antssignments.Models.Assignments;
-import com.example.antssignments.Models.Courses;
+import com.example.antssignments.Models.Assignment;
+import com.example.antssignments.Models.Course;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import okhttp3.Headers;
 
 public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.ViewHolder> {
     public static final String TAG = "AssignmentAdapter";
     private Context context;
-    protected ArrayList<Courses> courses;
-    private List<Assignments> assignmentsList;
+    protected ArrayList<Course> cours;
+    private List<Assignment> assignmentList;
     private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
 
-    HashMap<Courses, List<Assignments>> coursesToAssignments = new HashMap<>();
+    HashMap<Course, List<Assignment>> coursesToAssignments = new HashMap<>();
 
 
-    public AssignmentAdapter(Context context, ArrayList<Courses> courses) {
+    public AssignmentAdapter(Context context, ArrayList<Course> cours) {
         this.context = context;
-        this.courses = courses;
-        createAssignments(courses);
+        this.cours = cours;
+        createAssignments(cours);
     }
 
     @NonNull
@@ -55,7 +50,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Courses course = courses.get(position);
+        Course course = cours.get(position);
         holder.ClassName.setText(course.getCourseName());
 
         //LinearLayoutManager layoutManager = new LinearLayoutManager(holder.ChildRecyclerView.getContext(), LinearLayoutManager.VERTICAL, false);
@@ -77,7 +72,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return courses.size();
+        return cours.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -94,12 +89,12 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
 
     }
     @SuppressLint("DefaultLocale")
-    public void createAssignments(ArrayList<Courses> courseList) {
+    public void createAssignments(ArrayList<Course> courseList) {
         String ASSIGNMENTS_FROM_COURSE = "https://canvas.eee.uci.edu/api/v1/courses/%d/assignments?access_token=4407~UeskhdnHkzhYvPj5UxZFwJFTDhZcJJwaf98sJRP4loywfWHYvldN4HFPmxLOAuUV";
         AssignmentChildAdapter adapter;
         AsyncHttpClient client = new AsyncHttpClient();
         for (int i = 0; i < courseList.size(); i++) {
-            Courses courseObject = courseList.get(i);
+            Course courseObject = courseList.get(i);
             int ID = courseObject.getCourseID();
             client.get(String.format(ASSIGNMENTS_FROM_COURSE, ID), new JsonHttpResponseHandler() {
                 @Override
@@ -107,8 +102,8 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
                     Log.d(TAG, "onSuccess");
                     JSONArray assignments = json.jsonArray;
                     try {
-                        assignmentsList = Assignments.fromJsonArray(assignments);
-                        coursesToAssignments.put(courseObject, assignmentsList);
+                        assignmentList = Assignment.fromJsonArray(assignments);
+                        coursesToAssignments.put(courseObject, assignmentList);
                         Log.d(TAG, "HashMap: " + coursesToAssignments.toString());
                     } catch (JSONException e) {
                         e.printStackTrace();

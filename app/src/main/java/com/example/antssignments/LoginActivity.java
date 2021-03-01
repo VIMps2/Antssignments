@@ -10,14 +10,13 @@ import android.widget.Button;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
-import com.example.antssignments.Models.Courses;
+import com.example.antssignments.Models.Course;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.Headers;
 
@@ -26,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final String ALL_COURSE_IDS = "https://canvas.eee.uci.edu/api/v1/courses?access_token=4407~UeskhdnHkzhYvPj5UxZFwJFTDhZcJJwaf98sJRP4loywfWHYvldN4HFPmxLOAuUV";
     public static final String TAG = "LoginActivity";
 
-    private ArrayList<Courses> courseList;
+    private ArrayList<Course> courseList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d(TAG, "onSuccess");
                 JSONArray courses = json.jsonArray;
                 try {
-                    courseList = Courses.fromJsonArray(courses);
+                    courseList = Course.fromJsonArray(courses);
                     Log.i(TAG, "Courses: " + courseList.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();

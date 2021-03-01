@@ -11,30 +11,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Parcel
-public class Courses implements Parcelable {
-    public static ArrayList<Assignments> ListAssignments;
+public class Course implements Parcelable {
+    public static ArrayList<Assignment> listAssignments;
 
 
-    public Courses() {
+    public Course() {
     }
 
     String courseName;
     int courseID;
 
-    protected Courses(android.os.Parcel in) {
+    protected Course(android.os.Parcel in) {
         courseName = in.readString();
         courseID = in.readInt();
     }
 
-    public static final Creator<Courses> CREATOR = new Creator<Courses>() {
+    public static final Creator<Course> CREATOR = new Creator<Course>() {
         @Override
-        public Courses createFromParcel(android.os.Parcel in) {
-            return new Courses(in);
+        public Course createFromParcel(android.os.Parcel in) {
+            return new Course(in);
         }
 
         @Override
-        public Courses[] newArray(int size) {
-            return new Courses[size];
+        public Course[] newArray(int size) {
+            return new Course[size];
         }
     };
 
@@ -55,27 +55,27 @@ public class Courses implements Parcelable {
         this.courseID = courseID;
     }
 
-    public static Courses fromJson(JSONObject jsonObject) throws JSONException {
-        Courses course = new Courses();
+    public static Course fromJson(JSONObject jsonObject) throws JSONException {
+        Course course = new Course();
         course.courseName = jsonObject.getString("name");
         course.courseID = jsonObject.getInt("id");
         return course;
     }
 
-    public static ArrayList<Courses> fromJsonArray(JSONArray coursesJsonArray) throws JSONException {
-        ArrayList<Courses> courses = new ArrayList<>();
+    public static ArrayList<Course> fromJsonArray(JSONArray coursesJsonArray) throws JSONException {
+        ArrayList<Course> cours = new ArrayList<>();
         for (int i = 0; i < coursesJsonArray.length(); i++) {
             JSONObject obj = coursesJsonArray.getJSONObject(i);
             if (obj.has("access_restricted_by_date")) {
                 continue;
             }
-            courses.add(fromJson(coursesJsonArray.getJSONObject(i)));
+            cours.add(fromJson(coursesJsonArray.getJSONObject(i)));
         }
-        return courses;
+        return cours;
     }
 
-    public static void addAssignments(List<Assignments> assignments) {
-        ListAssignments.addAll(assignments);
+    public static void addAssignments(List<Assignment> assignments) {
+        listAssignments.addAll(assignments);
     }
 
     @Override

@@ -14,20 +14,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.codepath.asynchttpclient.AsyncHttpClient;
-import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.antssignments.AssignmentAdapter;
-import com.example.antssignments.Models.Assignments;
-import com.example.antssignments.Models.Courses;
+import com.example.antssignments.Models.Course;
 import com.example.antssignments.R;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.util.ArrayList;
-import java.util.List;
-
-import okhttp3.Headers;
 
 public class AssignmentFragment extends Fragment {
     public static final String ASSIGNMENTS_FROM_COURSE = "https://canvas.eee.uci.edu/api/v1/courses/%d/assignments?access_token=4407~UeskhdnHkzhYvPj5UxZFwJFTDhZcJJwaf98sJRP4loywfWHYvldN4HFPmxLOAuUV";
@@ -35,7 +26,7 @@ public class AssignmentFragment extends Fragment {
 
     protected AssignmentAdapter adapter;
     private RecyclerView rvAssignments;
-    protected ArrayList<Courses> courseList;
+    protected ArrayList<Course> courseList;
 
     public AssignmentFragment() {
 
@@ -58,7 +49,7 @@ public class AssignmentFragment extends Fragment {
         courseList = new ArrayList<>();
 
         Bundle extras = this.getArguments();//getActivity().getIntent().getExtras();
-        ArrayList<Courses> courseList  = extras.getParcelableArrayList("courseList");
+        ArrayList<Course> courseList  = extras.getParcelableArrayList("courseList");
         Log.i(TAG, "Courses: " + courseList.toString());
 
 

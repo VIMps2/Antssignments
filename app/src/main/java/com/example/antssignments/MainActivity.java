@@ -10,12 +10,10 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.example.antssignments.Fragments.AssignmentFragment;
 import com.example.antssignments.Fragments.ClassesFragment;
-import com.example.antssignments.Models.Assignments;
-import com.example.antssignments.Models.Courses;
+import com.example.antssignments.Models.Course;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.parceler.Parcels;
@@ -28,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     final FragmentManager fragmentManager = getSupportFragmentManager();
     private BottomNavigationView bottomNavigationView;
-    List<Courses> courseList;
+    List<Course> courseList;
 
 
     @SuppressLint("DefaultLocale")
@@ -41,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         int courseLength = getIntent().getIntExtra("listSize", 0);
         for (int i = 0; i < courseLength; i++) {
-            Courses course = (Courses) Parcels.unwrap(getIntent().getParcelableExtra("courseList" + String.valueOf(i)));
+            Course course = (Course) Parcels.unwrap(getIntent().getParcelableExtra("courseList" + String.valueOf(i)));
             courseList.add(course);
 
         }

@@ -1,10 +1,5 @@
 package com.example.antssignments.Models;
 
-import android.util.Log;
-
-import com.codepath.asynchttpclient.AsyncHttpClient;
-import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,17 +7,15 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.Headers;
-
-public class Assignments {
+public class Assignment {
     String assignmentName;
     String dueDate;
 
 
-    public Assignments() {
+    public Assignment() {
     }
 
-    public Assignments(JSONObject jsonObject) throws JSONException {
+    public Assignment(JSONObject jsonObject) throws JSONException {
         assignmentName = jsonObject.getString("name");
         dueDate = jsonObject.getString("due_at");
     }
@@ -35,11 +28,11 @@ public class Assignments {
         this.assignmentName = assignmentName;
     }
 
-    public static List<Assignments> fromJsonArray(JSONArray assignmentsJsonArray) throws JSONException {
-        List<Assignments> assignments = new ArrayList<>();
+    public static List<Assignment> fromJsonArray(JSONArray assignmentsJsonArray) throws JSONException {
+        List<Assignment> assignments = new ArrayList<>();
         for (int i = 0; i < assignmentsJsonArray.length(); i++) {
             JSONObject obj = assignmentsJsonArray.getJSONObject(i);
-            assignments.add(new Assignments(obj));
+            assignments.add(new Assignment(obj));
         }
         return assignments;
     }

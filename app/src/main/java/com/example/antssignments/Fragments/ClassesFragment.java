@@ -1,6 +1,7 @@
 package com.example.antssignments.Fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,7 @@ public class ClassesFragment extends Fragment {
     public static final String TAG = "ClassesFragment";
     protected ClassesAdapter classesAdapter;
     private RecyclerView rvClasses;
-    protected List<Courses> courseList;
+    protected ArrayList<Courses> courseList;
 
 
     public ClassesFragment() {
@@ -48,7 +49,8 @@ public class ClassesFragment extends Fragment {
         courseList = new ArrayList<>();
         Bundle extras = this.getArguments();//getActivity().getIntent().getExtras();
         ArrayList<Courses> courseList  = extras.getParcelableArrayList("courseList");
-        rvClasses = view.findViewById(R.id.rvClasses);
+        Log.i(TAG, "Courses: " + courseList.toString());
+        rvClasses = view.findViewById(R.id.rvCourses);
         classesAdapter = new ClassesAdapter(getContext(), courseList);
         rvClasses.setAdapter(classesAdapter);
         rvClasses.setLayoutManager(new LinearLayoutManager(getContext()));

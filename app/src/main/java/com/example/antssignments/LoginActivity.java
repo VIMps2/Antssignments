@@ -16,6 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Headers;
@@ -25,15 +26,15 @@ public class LoginActivity extends AppCompatActivity {
     public static final String ALL_COURSE_IDS = "https://canvas.eee.uci.edu/api/v1/courses?access_token=4407~UeskhdnHkzhYvPj5UxZFwJFTDhZcJJwaf98sJRP4loywfWHYvldN4HFPmxLOAuUV";
     public static final String TAG = "LoginActivity";
 
-    List<Courses> courseList;
-    private Button btnLogin;
+    private ArrayList<Courses> courseList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        createCourses();
 
-        btnLogin = findViewById(R.id.btnLogin);
+        Button btnLogin = findViewById(R.id.btnLogin);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,8 +48,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void createCourses() {
+        courseList = new ArrayList<>();
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(ALL_COURSE_IDS, new JsonHttpResponseHandler() {
+
             @Override
             public void onSuccess(int i, Headers headers, JSON json) {
                 Log.d(TAG, "onSuccess");

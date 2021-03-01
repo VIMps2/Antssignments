@@ -12,7 +12,7 @@ import java.util.List;
 
 @Parcel
 public class Courses implements Parcelable {
-    public static List<Assignments> ListAssignments;
+    public static ArrayList<Assignments> ListAssignments;
 
 
     public Courses() {
@@ -62,8 +62,8 @@ public class Courses implements Parcelable {
         return course;
     }
 
-    public static List<Courses> fromJsonArray(JSONArray coursesJsonArray) throws JSONException {
-        List<Courses> courses = new ArrayList<>();
+    public static ArrayList<Courses> fromJsonArray(JSONArray coursesJsonArray) throws JSONException {
+        ArrayList<Courses> courses = new ArrayList<>();
         for (int i = 0; i < coursesJsonArray.length(); i++) {
             JSONObject obj = coursesJsonArray.getJSONObject(i);
             if (obj.has("access_restricted_by_date")) {

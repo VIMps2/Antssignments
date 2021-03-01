@@ -9,17 +9,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.antssignments.Models.Assignments;
 import com.example.antssignments.Models.Courses;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ViewHolder> {
 
     private Context context;
-    private List<Courses> courses;
+    private ArrayList<Courses> courses;
 
-    public ClassesAdapter(Context context, List<Courses> courses) {
+    public ClassesAdapter(Context context, ArrayList<Courses> courses) {
         this.context = context;
         this.courses = courses;
     }
@@ -27,7 +26,7 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_assignment, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_class, parent, false);
         return new ViewHolder(view);
     }
 
@@ -43,15 +42,15 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView ClassName;
+        private TextView CourseName;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            ClassName = itemView.findViewById(R.id.tvClassName);
+            CourseName = itemView.findViewById(R.id.tvCourse);
         }
 
         public void bind(Courses course) {
-            ClassName.setText(course.getCourseName());
+            CourseName.setText(course.getCourseName());
         }
     }
 }

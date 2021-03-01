@@ -58,13 +58,11 @@ public class AssignmentFragment extends Fragment {
         rvAssignments = view.findViewById(R.id.rvAssignments);
         courseList = new ArrayList<>();
         assignmentList = new ArrayList<>();
+        createCourses();
 
         adapter = new AssignmentAdapter(getContext(), assignmentList, courseList);
         rvAssignments.setAdapter(adapter);
         rvAssignments.setLayoutManager(new LinearLayoutManager(getContext()));
-        createCourses();
-        createAssignments();
-        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -85,6 +83,7 @@ public class AssignmentFragment extends Fragment {
                 JSONArray courses = json.jsonArray;
                 try {
                     courseList = Course.fromJsonArray(courses);
+                    createAssignments();
                     Log.i(TAG, "Courses: " + courseList.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -98,7 +97,6 @@ public class AssignmentFragment extends Fragment {
         });
     }
 
-    @SuppressLint("DefaultLocale")
     public void createAssignments() {
         AsyncHttpClient client = new AsyncHttpClient();
         for (int i = 0; i < courseList.size(); i++) {
@@ -111,7 +109,8 @@ public class AssignmentFragment extends Fragment {
                     JSONArray assignments = json.jsonArray;
                     try {
                         assignmentList.addAll(Assignment.fromJsonArray(assignments));
-                        Log.d(TAG, "HashMap: " + assignmentList.toString());
+                        adapter.notifyDataSetChanged();
+                        Log.d(TAG, "Assignments: " + assignmentList.toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

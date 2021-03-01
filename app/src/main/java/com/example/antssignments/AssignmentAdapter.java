@@ -73,7 +73,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
             tvDueDate.setText(assignment.getDueDate());
 
             for(int i = 0; i < courseList.size(); i++ ){
-                if(assignment.getCourseID() ==  courseList.get(i).getCourseID()){
+                if(assignment.getCourseID() == courseList.get(i).getCourseID()){
                     tvCourseName.setText(courseList.get(i).getCourseName());
                 }
             }

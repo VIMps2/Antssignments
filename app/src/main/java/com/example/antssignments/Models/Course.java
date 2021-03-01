@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Parcel
-public class Course implements Parcelable {
+public class Course {
     public static ArrayList<Assignment> listAssignments;
 
 
@@ -20,23 +20,6 @@ public class Course implements Parcelable {
 
     String courseName;
     int courseID;
-
-    protected Course(android.os.Parcel in) {
-        courseName = in.readString();
-        courseID = in.readInt();
-    }
-
-    public static final Creator<Course> CREATOR = new Creator<Course>() {
-        @Override
-        public Course createFromParcel(android.os.Parcel in) {
-            return new Course(in);
-        }
-
-        @Override
-        public Course[] newArray(int size) {
-            return new Course[size];
-        }
-    };
 
 
     public String getCourseName() {
@@ -74,19 +57,5 @@ public class Course implements Parcelable {
         return cours;
     }
 
-    public static void addAssignments(List<Assignment> assignments) {
-        listAssignments.addAll(assignments);
-    }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(android.os.Parcel dest, int flags) {
-
-        dest.writeString(courseName);
-        dest.writeInt(courseID);
-    }
 }

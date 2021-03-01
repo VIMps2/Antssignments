@@ -8,16 +8,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Assignment {
+
     String assignmentName;
     String dueDate;
+    int courseID;
 
+    public int getCourseID() {
+        return courseID;
+    }
 
-    public Assignment() {
+    public void setCourseID(int courseID) {
+        this.courseID = courseID;
+    }
+
+    public String getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
     }
 
     public Assignment(JSONObject jsonObject) throws JSONException {
         assignmentName = jsonObject.getString("name");
         dueDate = jsonObject.getString("due_at");
+        courseID = jsonObject.getInt("course_id");
+
     }
 
     public String getAssignmentName() {

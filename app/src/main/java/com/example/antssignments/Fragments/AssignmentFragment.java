@@ -14,22 +14,33 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.codepath.asynchttpclient.AsyncHttpClient;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.antssignments.AssignmentAdapter;
+import com.example.antssignments.AssignmentChildAdapter;
+import com.example.antssignments.Models.Assignment;
 import com.example.antssignments.Models.Course;
 import com.example.antssignments.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 
+import okhttp3.Headers;
+
 public class AssignmentFragment extends Fragment {
-    public static final String ASSIGNMENTS_FROM_COURSE = "https://canvas.eee.uci.edu/api/v1/courses/%d/assignments?access_token=4407~UeskhdnHkzhYvPj5UxZFwJFTDhZcJJwaf98sJRP4loywfWHYvldN4HFPmxLOAuUV";
+    public static final String ACCESS_TOKEN = "4407~UeskhdnHkzhYvPj5UxZFwJFTDhZcJJwaf98sJRP4loywfWHYvldN4HFPmxLOAuUV";
+    public static final String ASSIGNMENTS_FROM_COURSE = "https://canvas.eee.uci.edu/api/v1/courses/%d/assignments?access_token=%s";
+    public static final String ALL_COURSE_IDS = "https://canvas.eee.uci.edu/api/v1/courses?access_token=%s";
     public static final String TAG = "AssignmentFragment";
 
     protected AssignmentAdapter adapter;
     private RecyclerView rvAssignments;
-    protected ArrayList<Course> courseList;
+    private ArrayList<Course> courseList;
+    private ArrayList<Assignment> assignmentList;
 
     public AssignmentFragment() {
-
     }
 
     @SuppressLint("DefaultLocale")
@@ -44,19 +55,16 @@ public class AssignmentFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         rvAssignments = view.findViewById(R.id.rvAssignments);
         courseList = new ArrayList<>();
+        assignmentList = new ArrayList<>();
 
-        Bundle extras = this.getArguments();//getActivity().getIntent().getExtras();
-        ArrayList<Course> courseList  = extras.getParcelableArrayList("courseList");
-        Log.i(TAG, "Courses: " + courseList.toString());
-
-
-        adapter = new AssignmentAdapter(getContext(), courseList);
+        adapter = new AssignmentAdapter(getContext(), assignmentList, courseList);
         rvAssignments.setAdapter(adapter);
         rvAssignments.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        createCourses();
+        createAssignments();
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -67,5 +75,53 @@ public class AssignmentFragment extends Fragment {
 
     }
 
+    private void createCourses() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(String.format(ALL_COURSE_IDS, ACCESS_TOKEN), new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int i, Headers headers, JSON json) {
+                Log.d(TAG, "onSuccess");
+                JSONArray courses = json.jsonArray;
+                try {
+                    courseList = Course.fromJsonArray(courses);
+                    Log.i(TAG, "Courses: " + courseList.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int i, Headers headers, String s, Throwable throwable) {
+                Log.d(TAG, "onFailure");
+            }
+        });
+    }
+
+    @SuppressLint("DefaultLocale")
+    public void createAssignments() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        for (int i = 0; i < courseList.size(); i++) {
+            Course courseObject = courseList.get(i);
+            int ID = courseObject.getCourseID();
+            client.get(String.format(ASSIGNMENTS_FROM_COURSE, ID, ACCESS_TOKEN), new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int i, Headers headers, JSON json) {
+                    Log.d(TAG, "onSuccess");
+                    JSONArray assignments = json.jsonArray;
+                    try {
+                        assignmentList.addAll(Assignment.fromJsonArray(assignments));
+                        Log.d(TAG, "HashMap: " + assignmentList.toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                @Override
+                public void onFailure(int i, Headers headers, String s, Throwable throwable) {
+                    Log.e(TAG, "onFailure", throwable);
+                }
+            });
+        }
+    }
 
 }

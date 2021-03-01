@@ -37,14 +37,6 @@ public class MainActivity extends AppCompatActivity {
         courseList = new ArrayList<>();
         bottomNavigationView = findViewById(R.id.bottomNavigation);
 
-        int courseLength = getIntent().getIntExtra("listSize", 0);
-        for (int i = 0; i < courseLength; i++) {
-            Course course = (Course) Parcels.unwrap(getIntent().getParcelableExtra("courseList" + String.valueOf(i)));
-            courseList.add(course);
-
-        }
-        Log.i(TAG, "Courses: " + courseList.toString());
-
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -58,9 +50,7 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new AssignmentFragment();
                         break;
                 }
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("courseList", (ArrayList<? extends Parcelable>) courseList);
-                fragment.setArguments(bundle);
+
                 fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
 
                 return true;

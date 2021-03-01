@@ -7,20 +7,28 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.antssignments.Fragments.NoteFragment;
 import com.example.antssignments.Models.Courses;
 
 import java.util.ArrayList;
 
 public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ViewHolder> {
+    public interface OnClickListener {
+        void OnItemClicked(int position);
+    }
 
     private Context context;
     private ArrayList<Courses> courses;
 
-    public ClassesAdapter(Context context, ArrayList<Courses> courses) {
+    OnClickListener clickListener;
+
+    public ClassesAdapter(Context context, ArrayList<Courses> courses, OnClickListener  clickListener) {
         this.context = context;
         this.courses = courses;
+        this.clickListener = clickListener;
     }
 
     @NonNull
@@ -34,6 +42,7 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Courses course = courses.get(position);
         holder.bind(course);
+
     }
 
     @Override
@@ -51,6 +60,12 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ViewHold
 
         public void bind(Courses course) {
             CourseName.setText(course.getCourseName());
+            CourseName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickListener.OnItemClicked(getAdapterPosition());
+                }
+            });
         }
     }
 }

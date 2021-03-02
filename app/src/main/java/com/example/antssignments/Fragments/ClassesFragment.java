@@ -1,6 +1,5 @@
 package com.example.antssignments.Fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,21 +13,18 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.antssignments.AssignmentAdapter;
 import com.example.antssignments.ClassesAdapter;
-import com.example.antssignments.MainActivity;
-import com.example.antssignments.Models.Courses;
+import com.example.antssignments.Models.Course;
 import com.example.antssignments.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ClassesFragment extends Fragment {
 
     public static final String TAG = "ClassesFragment";
     protected ClassesAdapter classesAdapter;
     private RecyclerView rvClasses;
-    protected ArrayList<Courses> courseList;
+    protected ArrayList<Course> courseList;
 
 
     public ClassesFragment() {
@@ -51,9 +47,9 @@ public class ClassesFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         courseList = new ArrayList<>();
 
-        Bundle extras = this.getArguments();//getActivity().getIntent().getExtras();
-        ArrayList<Courses> courseList  = extras.getParcelableArrayList("courseList");
-        Log.i(TAG, "Courses: " + courseList.toString());
+//        Bundle extras = this.getArguments();//getActivity().getIntent().getExtras();
+//        ArrayList<Course> courseList  = extras.getParcelableArrayList("courseList");
+//        Log.i(TAG, "Courses: " + courseList.toString());
         rvClasses = view.findViewById(R.id.rvCourses);
 
         ClassesAdapter.OnClickListener onClickListener = new ClassesAdapter.OnClickListener() {

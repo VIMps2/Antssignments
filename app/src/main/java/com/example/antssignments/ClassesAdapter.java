@@ -7,11 +7,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.antssignments.Fragments.NoteFragment;
-import com.example.antssignments.Models.Courses;
+import com.example.antssignments.Models.Course;
 
 import java.util.ArrayList;
 
@@ -21,13 +19,13 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ViewHold
     }
 
     private Context context;
-    private ArrayList<Courses> courses;
+    private ArrayList<Course> cours;
 
     OnClickListener clickListener;
 
-    public ClassesAdapter(Context context, ArrayList<Courses> courses, OnClickListener  clickListener) {
+    public ClassesAdapter(Context context, ArrayList<Course> cours, OnClickListener  clickListener) {
         this.context = context;
-        this.courses = courses;
+        this.cours = cours;
         this.clickListener = clickListener;
     }
 
@@ -40,14 +38,14 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Courses course = courses.get(position);
+        Course course = cours.get(position);
         holder.bind(course);
 
     }
 
     @Override
     public int getItemCount() {
-        return courses.size();
+        return cours.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -58,7 +56,7 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ViewHold
             CourseName = itemView.findViewById(R.id.tvCourse);
         }
 
-        public void bind(Courses course) {
+        public void bind(Course course) {
             CourseName.setText(course.getCourseName());
             CourseName.setOnClickListener(new View.OnClickListener() {
                 @Override

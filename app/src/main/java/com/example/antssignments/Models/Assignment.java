@@ -1,10 +1,5 @@
 package com.example.antssignments.Models;
 
-import android.util.Log;
-
-import com.codepath.asynchttpclient.AsyncHttpClient;
-import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,19 +7,33 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.Headers;
+public class Assignment {
 
-public class Assignments {
     String assignmentName;
     String dueDate;
+    int courseID;
 
-
-    public Assignments() {
+    public int getCourseID() {
+        return courseID;
     }
 
-    public Assignments(JSONObject jsonObject) throws JSONException {
+    public void setCourseID(int courseID) {
+        this.courseID = courseID;
+    }
+
+    public String getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public Assignment(JSONObject jsonObject) throws JSONException {
         assignmentName = jsonObject.getString("name");
         dueDate = jsonObject.getString("due_at");
+        courseID = jsonObject.getInt("course_id");
+
     }
 
     public String getAssignmentName() {
@@ -35,11 +44,11 @@ public class Assignments {
         this.assignmentName = assignmentName;
     }
 
-    public static List<Assignments> fromJsonArray(JSONArray assignmentsJsonArray) throws JSONException {
-        List<Assignments> assignments = new ArrayList<>();
+    public static List<Assignment> fromJsonArray(JSONArray assignmentsJsonArray) throws JSONException {
+        List<Assignment> assignments = new ArrayList<>();
         for (int i = 0; i < assignmentsJsonArray.length(); i++) {
             JSONObject obj = assignmentsJsonArray.getJSONObject(i);
-            assignments.add(new Assignments(obj));
+            assignments.add(new Assignment(obj));
         }
         return assignments;
     }

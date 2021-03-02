@@ -6,44 +6,37 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
-import com.example.antssignments.Fragments.AssignmentFragment;
-import com.example.antssignments.Models.Assignments;
-import com.example.antssignments.Models.Courses;
+import com.example.antssignments.Models.Assignment;
+import com.example.antssignments.Models.Course;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import okhttp3.Headers;
 
 public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.ViewHolder> {
     public static final String TAG = "AssignmentAdapter";
     private Context context;
-    protected ArrayList<Courses> courses;
-    private List<Assignments> assignmentsList;
+    private List<Assignment> assignmentList;
+    private List<Course> courseList;
     private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
 
-    HashMap<Courses, List<Assignments>> coursesToAssignments = new HashMap<>();
 
-
-    public AssignmentAdapter(Context context, ArrayList<Courses> courses) {
+    public AssignmentAdapter(Context context, ArrayList<Assignment> assignmentList, ArrayList<Course> courseList) {
         this.context = context;
-        this.courses = courses;
-        createAssignments(courses);
+        this.assignmentList = assignmentList;
+        this.courseList = courseList;
     }
 
     @NonNull
@@ -55,72 +48,35 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Courses course = courses.get(position);
-        holder.ClassName.setText(course.getCourseName());
-
-        //LinearLayoutManager layoutManager = new LinearLayoutManager(holder.ChildRecyclerView.getContext(), LinearLayoutManager.VERTICAL, false);
-        //layoutManager.setInitialPrefetchItemCount(coursesToAssignments.size());
-
-        /*
-        for(Map.Entry<Courses, List<Assignments>> coursesListHashMap : coursesToAssignments.entrySet()) {
-            for (int j = 0; j < coursesToAssignments.size(); j++) {
-                Courses key = coursesListHashMap.getKey();
-                AssignmentChildAdapter assignmentChildAdapter = new AssignmentChildAdapter(coursesToAssignments.get(key));
-                holder.ChildRecyclerView.setLayoutManager(layoutManager);
-                holder.ChildRecyclerView.setAdapter(assignmentChildAdapter);
-                holder.ChildRecyclerView.setRecycledViewPool(viewPool);
-            }
-        }
-
-         */
+        Assignment assignment = assignmentList.get(position);
+        holder.bind(assignment);
     }
 
     @Override
-    public int getItemCount() {
-        return courses.size();
+    public int getItemCount(){
+        return assignmentList.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView ClassName;
-        //private RecyclerView ChildRecyclerView;
+        private TextView tvAssignmentName, tvCourseName, tvDueDate;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            ClassName = itemView.findViewById(R.id.tvClassName);
-            //ChildRecyclerView = itemView.findViewById(R.id.rvChildRecyclerView);
-
+            tvAssignmentName = itemView.findViewById(R.id.tvAssignmentName);
+            tvCourseName = itemView.findViewById(R.id.tvCourseName);
+            tvDueDate = itemView.findViewById(R.id.tvDueDate);
         }
 
-    }
-    @SuppressLint("DefaultLocale")
-    public void createAssignments(ArrayList<Courses> courseList) {
-        String ASSIGNMENTS_FROM_COURSE = "https://canvas.eee.uci.edu/api/v1/courses/%d/assignments?access_token=4407~UeskhdnHkzhYvPj5UxZFwJFTDhZcJJwaf98sJRP4loywfWHYvldN4HFPmxLOAuUV";
-        AssignmentChildAdapter adapter;
-        AsyncHttpClient client = new AsyncHttpClient();
-        for (int i = 0; i < courseList.size(); i++) {
-            Courses courseObject = courseList.get(i);
-            int ID = courseObject.getCourseID();
-            client.get(String.format(ASSIGNMENTS_FROM_COURSE, ID), new JsonHttpResponseHandler() {
-                @Override
-                public void onSuccess(int i, Headers headers, JSON json) {
-                    Log.d(TAG, "onSuccess");
-                    JSONArray assignments = json.jsonArray;
-                    try {
-                        assignmentsList = Assignments.fromJsonArray(assignments);
-                        coursesToAssignments.put(courseObject, assignmentsList);
-                        Log.d(TAG, "HashMap: " + coursesToAssignments.toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+        public void bind(Assignment assignment){
+            tvAssignmentName.setText(assignment.getAssignmentName());
+            tvDueDate.setText(assignment.getDueDate());
+
+            for(int i = 0; i < courseList.size(); i++ ){
+                if(assignment.getCourseID() == courseList.get(i).getCourseID()){
+                    tvCourseName.setText(courseList.get(i).getCourseName());
                 }
-                @Override
-                public void onFailure(int i, Headers headers, String s, Throwable throwable) {
-                    Log.e(TAG, "onFailure", throwable);
-                }
-            });
+            }
         }
     }
-
-
 }

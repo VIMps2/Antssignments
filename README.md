@@ -84,7 +84,9 @@ A comprehensive app that uses Canvas API to create a todo app for Anteaters' ass
 
 ## Notes
 List of Issues During Development
-* 1. 
-* 2. 
-* 3. 
-* 4.
+* Push/Pull and Commit Issues
+* * Starting the application and communicating when we were going to commit changes for the application was an issue while we got started. However, as we began to work more efficiently and communicated more frequently, this issue became quickly resolved.
+* OAuth Implementation
+* * Understanding the Canvas API and the types of information we were going to receive from the API was something that took us a while to figure out. The issue was that we did not have the availability of aa developer key and in order to retreive this, it would require a timely process of asking UCI for a key with a wide enough scope. Therefore, to resolve this issue, we used one person's information to build our application around.
+* Bottom Navigation Bar
+* * While implementing this feature onto our application, we desired for the bar to hae two distinct features. However, while implementing this crucial design, we came across issues that affected our MainActivity file, causing the application to crash when we tried to navigate through the login screen. This issue has been resolved and the navigation bar can navigate the user to their classes and their assignments.

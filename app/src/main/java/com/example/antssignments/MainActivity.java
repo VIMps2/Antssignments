@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     final FragmentManager fragmentManager = getSupportFragmentManager();
     private BottomNavigationView bottomNavigationView;
-    List<Course> courseList;
+    ArrayList<Course> courseList;
 
 
     @SuppressLint("DefaultLocale")
@@ -36,6 +36,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         courseList = new ArrayList<>();
         bottomNavigationView = findViewById(R.id.bottomNavigation);
+
+        int courseLength = getIntent().getIntExtra("listSize", 0);
+        for (int i = 0; i < courseLength; i++) {
+            Course course = (Course) Parcels.unwrap(getIntent().getParcelableExtra("courseList" + String.valueOf(i)));
+            courseList.add(course);
+        }
+        Log.i(TAG, "Courses: " + courseList.toString());
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -50,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new AssignmentFragment();
                         break;
                 }
-
                 fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
 
                 return true;

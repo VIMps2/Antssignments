@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Parcel
-public class Course {
+public class Course{
     public static ArrayList<Assignment> listAssignments;
 
 
@@ -20,6 +20,11 @@ public class Course {
 
     String courseName;
     int courseID;
+
+    protected Course(android.os.Parcel in) {
+        courseName = in.readString();
+        courseID = in.readInt();
+    }
 
 
     public String getCourseName() {

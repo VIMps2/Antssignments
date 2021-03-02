@@ -83,4 +83,8 @@ A comprehensive app that uses Canvas API to create a todo app for Anteaters' ass
       - (Read/GET) Class names
 
 ## Notes
-* Issues
+List of Issues During Development
+* 1. 
+* 2. 
+* 3. 
+* 4.

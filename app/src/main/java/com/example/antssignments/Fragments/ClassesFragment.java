@@ -58,7 +58,6 @@ public class ClassesFragment extends Fragment {
         courseList = new ArrayList<>();
         rvClasses = view.findViewById(R.id.rvCourses);
         createCourses();
-        Log.i(TAG, "Courses: " + courseList.toString());
 
 
     }
@@ -78,6 +77,12 @@ public class ClassesFragment extends Fragment {
                         @Override
                         public void OnItemClicked(int position) {
                             Toast.makeText(getContext(), "Single click at position " + position, Toast.LENGTH_SHORT).show();
+                            NoteFragment nextFrag= new NoteFragment();
+                            getActivity().getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.flContainer , nextFrag, "findThisFragment")
+                                    .addToBackStack(null)
+                                    .commit();
+
                         }
                     };
 

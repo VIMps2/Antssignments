@@ -92,7 +92,6 @@ Milestones
   * Figure out how to implement the API so that we can retreive the information we need for the application. Understand how to API works, how to get a developer key and the scope of that key so that we can come up with a way to design the OAuth login page of the appplication. Create fragments for the assignments and classes so that the application has multiple pages. Design the user interface based off of the wireframe created in week one.
 * Week Three
   * Implement the bottom navigation bar to allow the user to rotate between the classes and assignments fragments. Using the navigation bar should allow the user to be able to navigate their way throughout all the details of the application so far. Start on figuring out how to implement the notetaking aspect of the application which allows users to create their own notes for their assignments.
-* Week Four
 
 
 List of Issues During Development

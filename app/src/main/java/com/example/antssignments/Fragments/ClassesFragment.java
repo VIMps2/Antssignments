@@ -82,7 +82,6 @@ public class ClassesFragment extends Fragment {
                                     .replace(R.id.flContainer , nextFrag, "findThisFragment")
                                     .addToBackStack(null)
                                     .commit();
-
                         }
                     };
 

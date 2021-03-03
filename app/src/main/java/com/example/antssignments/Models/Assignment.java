@@ -1,5 +1,7 @@
 package com.example.antssignments.Models;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,6 +50,10 @@ public class Assignment {
         List<Assignment> assignments = new ArrayList<>();
         for (int i = 0; i < assignmentsJsonArray.length(); i++) {
             JSONObject obj = assignmentsJsonArray.getJSONObject(i);
+            //Log.d("AssignmentClass", "Due date: " + obj.getString("due_at"));
+            if (obj.has("due_at") && obj.isNull("due_at")) {
+                continue;
+            }
             assignments.add(new Assignment(obj));
         }
         return assignments;

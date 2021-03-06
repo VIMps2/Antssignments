@@ -38,6 +38,7 @@ public class ClassesFragment extends Fragment {
 
 
     public ClassesFragment() {
+
     }
 
     @Override
@@ -65,7 +66,7 @@ public class ClassesFragment extends Fragment {
     private void createCourses() {
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(String.format(ALL_COURSE_IDS, ACCESS_TOKEN), new JsonHttpResponseHandler() {
-
+            NoteFragment nextFrag= new NoteFragment();
             @Override
             public void onSuccess(int i, Headers headers, JSON json) {
                 Log.d(TAG, "onSuccess");
@@ -75,13 +76,16 @@ public class ClassesFragment extends Fragment {
                     Log.i(TAG, "Courses: " + courseList.toString());
                     ClassesAdapter.OnClickListener onClickListener = new ClassesAdapter.OnClickListener() {
                         @Override
-                        public void OnItemClicked(int position) {
-                            Toast.makeText(getContext(), "Single click at position " + position, Toast.LENGTH_SHORT).show();
-                            NoteFragment nextFrag= new NoteFragment();
+                        public void OnItemClicked(String position) {
+                            //Toast.makeText(getContext(), "Class name: " + position, Toast.LENGTH_SHORT).show();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("course_name", position);
+                            nextFrag.setArguments(bundle);
                             getActivity().getSupportFragmentManager().beginTransaction()
                                     .replace(R.id.flContainer , nextFrag, "findThisFragment")
                                     .addToBackStack(null)
                                     .commit();
+
                         }
                     };
 

@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.antssignments.Models.Course;
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 
 public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ViewHolder> {
     public interface OnClickListener {
-        void OnItemClicked(int position);
+        void OnItemClicked(String position);
     }
 
     private Context context;
@@ -62,7 +61,7 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.ViewHold
             CourseName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    clickListener.OnItemClicked(getAdapterPosition());
+                    clickListener.OnItemClicked(course.getCourseName());
                 }
             });
         }

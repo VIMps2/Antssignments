@@ -1,6 +1,13 @@
 package com.example.antssignments.Fragments;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.pm.PackageManager;
+import android.nfc.tech.NfcV;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +16,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +31,7 @@ import com.example.antssignments.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import okhttp3.Headers;
@@ -44,6 +54,7 @@ public class ClassesFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Nullable
@@ -53,15 +64,61 @@ public class ClassesFragment extends Fragment {
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.i("errorCheck","YES");
+                    createCourses();
+                } else {
+                    Log.i("errorCheck","NO");
+                }
+            }
+        }
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         courseList = new ArrayList<>();
         rvClasses = view.findViewById(R.id.rvCourses);
-        createCourses();
+
+        requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE} ,1);
+
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions((Activity) getContext(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+        }
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions((Activity) getContext(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        };
 
 
     }
+
+    private void createCourseDirs() {
+        File f;
+        String legalPath;
+        for(int i = 0; i < courseList.size(); i++){
+            legalPath = getContext().getExternalFilesDir(null).getAbsolutePath() + "/" +
+                    courseList.get(i).getCourseName().replace(":","");
+            Log.i(TAG, "legalPath: " + legalPath);
+            f = new File(legalPath);
+            if(f.exists()){
+                Log.i(TAG, "file exists");
+            }else{
+                if(f.mkdirs()){
+                    Log.i(TAG, "folder created");
+                }else{
+                    Log.i(TAG, "folder NOT created");
+                }
+            }
+            if(f.isDirectory()){
+                Log.i(TAG, "file is a directory");
+            }
+        }
+    }
+
 
     private void createCourses() {
         AsyncHttpClient client = new AsyncHttpClient();
@@ -74,6 +131,7 @@ public class ClassesFragment extends Fragment {
                 try {
                     courseList = Course.fromJsonArray(courses);
                     Log.i(TAG, "Courses: " + courseList.toString());
+                    createCourseDirs();
                     ClassesAdapter.OnClickListener onClickListener = new ClassesAdapter.OnClickListener() {
                         @Override
                         public void OnItemClicked(String position) {

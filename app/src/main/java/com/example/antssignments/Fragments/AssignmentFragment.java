@@ -17,15 +17,17 @@ import android.view.ViewGroup;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.antssignments.AssignmentAdapter;
-import com.example.antssignments.AssignmentChildAdapter;
 import com.example.antssignments.Models.Assignment;
 import com.example.antssignments.Models.Course;
 import com.example.antssignments.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import okhttp3.Headers;
 

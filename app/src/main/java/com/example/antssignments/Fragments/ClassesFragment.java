@@ -69,6 +69,7 @@ public class ClassesFragment extends Fragment {
             case 1: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.i("errorCheck","YES");
+                    // We create the Courses after the permissions are allowed/accepted
                     createCourses();
                 } else {
                     Log.i("errorCheck","NO");
@@ -84,15 +85,8 @@ public class ClassesFragment extends Fragment {
         courseList = new ArrayList<>();
         rvClasses = view.findViewById(R.id.rvCourses);
 
+        //Request Read and Write Permissions
         requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE} ,1);
-
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions((Activity) getContext(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-        }
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions((Activity) getContext(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-        };
-
 
     }
 
@@ -100,6 +94,8 @@ public class ClassesFragment extends Fragment {
         File f;
         String legalPath;
         for(int i = 0; i < courseList.size(); i++){
+            // courseList contains instances of courses, each course has a name, might have an illegal
+            // characters such as ':' so that when creating a directory there won't be an error
             legalPath = getContext().getExternalFilesDir(null).getAbsolutePath() + "/" +
                     courseList.get(i).getCourseName().replace(":","");
             Log.i(TAG, "legalPath: " + legalPath);

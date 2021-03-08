@@ -105,3 +105,5 @@ List of Issues During Development
   * While implementing this feature onto our application, we desired for the bar to hae two distinct features. However, while implementing this crucial design, we came across issues that affected our MainActivity file, causing the application to crash when we tried to navigate through the login screen. This issue has been resolved and the navigation bar can navigate the user to their classes and their assignments.
 * Notes/To-Do list 
   * Had problems figuring how to create a new fragment for each respective class and saving to allow user to access each note sheet at any time, to add/edit/delete notes. Resolved by using .txt files to each respective class, saving on user's device storage, accessing each file by using a prefix of class name + ".txt".
+* Sorting by due dates
+  * Had to figure out a way to sort all of the assignments for all classes into one total list, accessing due date keys for each assignment and sorting them by earliest due date to latest.

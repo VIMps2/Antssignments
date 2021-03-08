@@ -1,23 +1,15 @@
 package com.example.antssignments.Fragments;
 
 import android.Manifest;
-import android.app.Activity;
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.pm.PackageManager;
-import android.nfc.tech.NfcV;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,7 +23,6 @@ import com.example.antssignments.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import okhttp3.Headers;
@@ -90,30 +81,30 @@ public class ClassesFragment extends Fragment {
 
     }
 
-    private void createCourseDirs() {
-        File f;
-        String legalPath;
-        for(int i = 0; i < courseList.size(); i++){
-            // courseList contains instances of courses, each course has a name, might have an illegal
-            // characters such as ':' so that when creating a directory there won't be an error
-            legalPath = getContext().getExternalFilesDir(null).getAbsolutePath() + "/" +
-                    courseList.get(i).getCourseName().replace(":","");
-            Log.i(TAG, "legalPath: " + legalPath);
-            f = new File(legalPath);
-            if(f.exists()){
-                Log.i(TAG, "file exists");
-            }else{
-                if(f.mkdirs()){
-                    Log.i(TAG, "folder created");
-                }else{
-                    Log.i(TAG, "folder NOT created");
-                }
-            }
-            if(f.isDirectory()){
-                Log.i(TAG, "file is a directory");
-            }
-        }
-    }
+//    private void createCourseFiles() {
+//        File f;
+//        String legalPath;
+//        for(int i = 0; i < courseList.size(); i++){
+//            // courseList contains instances of courses, each course has a name, might have an illegal
+//            // characters such as ':' so that when creating a directory there won't be an error
+//            legalPath = getContext().getExternalFilesDir(null).getAbsolutePath() + "/" +
+//                    courseList.get(i).getCourseName().replace(":","");
+//            Log.i(TAG, "legalPath: " + legalPath);
+//            f = new File(legalPath);
+//            if(f.exists()){
+//                Log.i(TAG, "file exists");
+//            }else{
+//                if(f.mkdirs()){
+//                    Log.i(TAG, "folder created");
+//                }else{
+//                    Log.i(TAG, "folder NOT created");
+//                }
+//            }
+//            if(f.isDirectory()){
+//                Log.i(TAG, "file is a directory");
+//            }
+//        }
+//    }
 
 
     private void createCourses() {
@@ -127,7 +118,9 @@ public class ClassesFragment extends Fragment {
                 try {
                     courseList = Course.fromJsonArray(courses);
                     Log.i(TAG, "Courses: " + courseList.toString());
-                    createCourseDirs();
+//                    createCourseFiles();
+                    // depending on which class is selected we redirect the user to a fragment that
+                    // lists out all of the notes the user has saved for that class
                     ClassesAdapter.OnClickListener onClickListener = new ClassesAdapter.OnClickListener() {
                         @Override
                         public void OnItemClicked(String position) {
@@ -139,7 +132,6 @@ public class ClassesFragment extends Fragment {
                                     .replace(R.id.flContainer , nextFrag, "findThisFragment")
                                     .addToBackStack(null)
                                     .commit();
-
                         }
                     };
 

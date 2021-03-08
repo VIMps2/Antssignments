@@ -92,6 +92,8 @@ Milestones
   * Figure out how to implement the API so that we can retreive the information we need for the application. Understand how to API works, how to get a developer key and the scope of that key so that we can come up with a way to design the OAuth login page of the appplication. Create fragments for the assignments and classes so that the application has multiple pages. Design the user interface based off of the wireframe created in week one.
 * Week Three
   * Implement the bottom navigation bar to allow the user to rotate between the classes and assignments fragments. Using the navigation bar should allow the user to be able to navigate their way throughout all the details of the application so far. Start on figuring out how to implement the notetaking aspect of the application which allows users to create their own notes for their assignments.
+* Week Four
+  * Finish note view, allowing user to click on a course name to open up an empty note text that they can add/edit/delete notes on their screen. The notes will save for each class respectably and allow for user to click and look at again at any time.
 
 
 List of Issues During Development
@@ -101,3 +103,5 @@ List of Issues During Development
   * Understanding the Canvas API and the types of information we were going to receive from the API was something that took us a while to figure out. The issue was that we did not have the availability of aa developer key and in order to retreive this, it would require a timely process of asking UCI for a key with a wide enough scope. Therefore, to resolve this issue, we used one person's information to build our application around.
 * Bottom Navigation Bar
   * While implementing this feature onto our application, we desired for the bar to hae two distinct features. However, while implementing this crucial design, we came across issues that affected our MainActivity file, causing the application to crash when we tried to navigate through the login screen. This issue has been resolved and the navigation bar can navigate the user to their classes and their assignments.
+* Notes/To-Do list 
+  * Had problems figuring how to create a new fragment for each respective class and saving to allow user to access each note sheet at any time, to add/edit/delete notes. Resolved by using .txt files to each respective class, saving on user's device storage, accessing each file by using a prefix of class name + ".txt".

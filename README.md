@@ -30,7 +30,7 @@ A comprehensive app that uses Canvas API to create a todo app for Anteaters' ass
 * [x] User logins to their UCINetID account and accesses Canvas
 * [x] User is automatically navigated to their assignments after logging in
 * [x] User can navigate through the app via navigation bar
-* [ ] User is able to click on a class to access a to-do list to enter in reminders and tasks
+* [x] User is able to click on a class to access a to-do list to enter in reminders and tasks
 
 **Optional Nice-to-have Stories**
 
@@ -38,14 +38,14 @@ A comprehensive app that uses Canvas API to create a todo app for Anteaters' ass
 
 **Story Progress**
 
-<img src="walkthrough1.gif" width=250><br>
+<img src="walkthrough2.gif" width=250><br>
 
 ### 2. Screen Archetypes
 
 * Login 
 * Assignments Screen
   * Recycler view of all the assignments from our classes
-* To-do Screen
+* Notes Screen
    * Clickable classes lead to another activity in which has all of the notes and reminders for the class
 
 
@@ -57,9 +57,9 @@ A comprehensive app that uses Canvas API to create a todo app for Anteaters' ass
 
 **Flow Navigation** (Screen to Screen)
 * Forced Log-in -> Account creation if no log in is available
-* Music Selection (Or Queue if Optional) -> Jumps to Chat
-* Profile -> Text field to be modified. 
-* Settings -> Toggle settings
+* View of all assignments 
+* View of all clickable course names
+* Clickable course names lead to an individual note fragment with adding/editing/deleting note functionality
 
 ## Wireframes
 <img src="wireframe.PNG" width=800><br>

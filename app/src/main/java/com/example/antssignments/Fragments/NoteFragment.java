@@ -1,5 +1,6 @@
 package com.example.antssignments.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.antssignments.EditNoteActivity;
 import com.example.antssignments.NoteAdapter;
 import com.example.antssignments.R;
 
@@ -23,9 +25,12 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
+import static android.app.Activity.RESULT_OK;
+
 
 public class NoteFragment extends Fragment {
     public static final String TAG = "NoteFragment";
+    public static final int EDIT_TEXT_CODE = 20;
     private String courseName;
     private String textPath;
 
@@ -47,7 +52,31 @@ public class NoteFragment extends Fragment {
         courseName = extras.getString("course_name");
 //        Toast.makeText(getContext(), "Class name: " + courseName, Toast.LENGTH_SHORT).show();
         getNotes();
+
+        NoteAdapter.OnLongClickListener onLongClickListener = new NoteAdapter.OnLongClickListener() {
+            @Override
+            public void onItemLongClicked(int position) {
+                items.remove(position);
+                noteAdapter.notifyItemRemoved(position);
+                saveNotes();
+            }
+        };
+
+        NoteAdapter.onClickListener onClickListener = new NoteAdapter.onClickListener() {
+            @Override
+            public void onItemClicked(int position) {
+                Log.i(TAG, "clicked an item to edit");
+                Intent editIntent = new Intent(getActivity(), EditNoteActivity.class);
+                editIntent.putExtra("text", items.get(position));
+                editIntent.putExtra("position", position);
+                startActivityForResult(editIntent, EDIT_TEXT_CODE);
+            }
+        };
+        noteAdapter = new NoteAdapter(getContext(), items, onLongClickListener, onClickListener);
     }
+
+
+
 
     // given a course name, this function will find the directory of that course and
     // open all the notes file
@@ -65,11 +94,20 @@ public class NoteFragment extends Fragment {
         }
     }
 
-    private void saveNotes(){
-        try {
-            org.apache.commons.io.FileUtils.writeLines(new File(textPath), items);
-        } catch (IOException e) {
-            Log.e(TAG, "Error writing items", e);
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK && requestCode == EDIT_TEXT_CODE){
+            String itemText = data.getStringExtra("text");
+            int position = data.getExtras().getInt("position");
+
+            items.set(position, itemText);
+
+            noteAdapter.notifyItemChanged(position);
+
+            saveNotes();
+        }else{
+            Log.i(TAG, "unknown call to onActivityResult");
         }
     }
 
@@ -88,10 +126,11 @@ public class NoteFragment extends Fragment {
 
         // Get prefixes for each courseName
 
-        noteAdapter = new NoteAdapter(getContext(), items);
         rvItems.setAdapter(noteAdapter);
         rvItems.setLayoutManager(new LinearLayoutManager(getContext()));
 //        etItem.setText(courseName + ": ");
+
+
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,4 +144,14 @@ public class NoteFragment extends Fragment {
             }
         });
     }
+
+    private void saveNotes(){
+        try {
+            org.apache.commons.io.FileUtils.writeLines(new File(textPath), items);
+        } catch (IOException e) {
+            Log.e(TAG, "Error writing items", e);
+        }
+    }
+
+
 }
